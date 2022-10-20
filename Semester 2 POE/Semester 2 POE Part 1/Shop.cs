@@ -16,19 +16,36 @@ namespace Semester_2_POE_Part_1
             Random rnd = new Random();
             int weaponRandom = rnd.Next(0, 4);
 
+            
+
+            switch(weaponRandom)
+            {
+                case 0:
+                    //dagger
+                    break;
+
+                case 1:
+                    //longsword
+                    break;
+
+                case 2:
+                    //rifle
+                    break;
+
+                case 3:
+                    //longbow
+                    break;
+
+            }
+
             return weaponRandom;
         }
 
-        /*public string buyer(int goldpurse, string target)
-        {
-            if(target == player)
-            {
-                // check if the player has enough money
-                // subtract the money from the players purse if they do
-            }
 
-            return target;
-        }*/
+        //public string Buyer(Character buyer)
+        //{
+
+        //}
 
 
 
