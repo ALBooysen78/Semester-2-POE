@@ -39,6 +39,11 @@
             this.attackEnemyButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
+            this.backlogTextBox = new System.Windows.Forms.RichTextBox();
+            this.shopLabel = new System.Windows.Forms.Label();
+            this.item1Button = new System.Windows.Forms.Button();
+            this.item2Button = new System.Windows.Forms.Button();
+            this.item3Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // upButton
@@ -164,11 +169,70 @@
             this.loadButton.UseVisualStyleBackColor = true;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
+            // backlogTextBox
+            // 
+            this.backlogTextBox.Location = new System.Drawing.Point(696, 43);
+            this.backlogTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.backlogTextBox.Name = "backlogTextBox";
+            this.backlogTextBox.ReadOnly = true;
+            this.backlogTextBox.Size = new System.Drawing.Size(146, 203);
+            this.backlogTextBox.TabIndex = 11;
+            this.backlogTextBox.Text = "";
+            this.backlogTextBox.TextChanged += new System.EventHandler(this.backlogTextBox_TextChanged);
+            // 
+            // shopLabel
+            // 
+            this.shopLabel.AutoSize = true;
+            this.shopLabel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shopLabel.Location = new System.Drawing.Point(692, 263);
+            this.shopLabel.Name = "shopLabel";
+            this.shopLabel.Size = new System.Drawing.Size(56, 23);
+            this.shopLabel.TabIndex = 12;
+            this.shopLabel.Text = "Shop:";
+            // 
+            // item1Button
+            // 
+            this.item1Button.Enabled = false;
+            this.item1Button.Location = new System.Drawing.Point(696, 310);
+            this.item1Button.Name = "item1Button";
+            this.item1Button.Size = new System.Drawing.Size(146, 25);
+            this.item1Button.TabIndex = 13;
+            this.item1Button.Text = "Shopbutton1";
+            this.item1Button.UseVisualStyleBackColor = true;
+            this.item1Button.Click += new System.EventHandler(this.item1Button_Click);
+            // 
+            // item2Button
+            // 
+            this.item2Button.Enabled = false;
+            this.item2Button.Location = new System.Drawing.Point(696, 341);
+            this.item2Button.Name = "item2Button";
+            this.item2Button.Size = new System.Drawing.Size(146, 25);
+            this.item2Button.TabIndex = 14;
+            this.item2Button.Text = "Shopbutton2";
+            this.item2Button.UseVisualStyleBackColor = true;
+            this.item2Button.Click += new System.EventHandler(this.item2Button_Click);
+            // 
+            // item3Button
+            // 
+            this.item3Button.Enabled = false;
+            this.item3Button.Location = new System.Drawing.Point(696, 372);
+            this.item3Button.Name = "item3Button";
+            this.item3Button.Size = new System.Drawing.Size(146, 25);
+            this.item3Button.TabIndex = 15;
+            this.item3Button.Text = "Shopbutton3";
+            this.item3Button.UseVisualStyleBackColor = true;
+            this.item3Button.Click += new System.EventHandler(this.item3Button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 484);
+            this.ClientSize = new System.Drawing.Size(895, 484);
+            this.Controls.Add(this.item3Button);
+            this.Controls.Add(this.item2Button);
+            this.Controls.Add(this.item1Button);
+            this.Controls.Add(this.shopLabel);
+            this.Controls.Add(this.backlogTextBox);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.attackEnemyButton);
@@ -203,6 +267,11 @@
         private System.Windows.Forms.Button attackEnemyButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button loadButton;
+        private System.Windows.Forms.RichTextBox backlogTextBox;
+        private System.Windows.Forms.Label shopLabel;
+        private System.Windows.Forms.Button item1Button;
+        private System.Windows.Forms.Button item2Button;
+        private System.Windows.Forms.Button item3Button;
     }
 }
 

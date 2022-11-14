@@ -154,7 +154,35 @@ namespace Semester_2_POE_Part_1
             this.damage = weapon.WeaponDamage;
         }
 
+        public bool Loot(Character c)
+        {
+            this.goldPurse += c.GoldPurse;
 
+            if (this is Mage)
+            {
+                return false;
+            }
 
+            if (c.GetWeapon() != null)
+            {
+                if (this.GetWeapon() == null)
+                {
+                    this.Pickup(c.GetWeapon());
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public string HasLootedWeapon()
+        {
+            
+            return $"The {this.symbol} at [{X.ToString()},{Y.ToString()}] has picked up a {this.GetWeapon().WeaponTypeString}\n";
+        }
+
+        public string HaslootedGold(int i)
+        {
+            return $"The {this.symbol} at [{X.ToString()},{Y.ToString()}] has picked up {i} gold\n";
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Semester_2_POE_Part_1
         private static Random rndm = new Random();
         public SwampCreature(int X, int Y) : base(X, Y, 1, 10, 10, "SC")
         {
+            goldPurse = 1;
             //swamp creature constructor
         }
 

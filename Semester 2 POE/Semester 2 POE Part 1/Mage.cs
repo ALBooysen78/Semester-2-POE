@@ -10,6 +10,7 @@ namespace Semester_2_POE_Part_1
     {
         public Mage(int X, int Y) : base(X, Y, 5, 5, 5, "M ")
         {
+            goldPurse = 3;
             //Mage constructor
         }
         public Mage(int X, int Y, int DAMAGE, int HP, int MaxHP, string symbol) : base(X, Y, 5, HP, 5, "M ")

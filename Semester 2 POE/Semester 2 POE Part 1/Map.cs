@@ -72,7 +72,7 @@ namespace Semester_2_POE_Part_1
             this.mapWidth = random.Next(minWidth,maxWidth);
             map = new Tile[mapHeight,mapWidth];
             enemies = new Enemy[enemyNumber];
-            int weaponAmount = random.Next(WeaponAmount);
+            int weaponAmount = random.Next(1,WeaponAmount);
             items = new Item[goldAmount + weaponAmount];
 
             for (int i = 0; i < mapHeight; i++)     //sets the obstacles around the entire map
@@ -175,7 +175,7 @@ namespace Semester_2_POE_Part_1
                 case Tile.tileType.Hero:
                     return new Hero(X, Y, 2, 100, 100, "H");
                 case Tile.tileType.Enemy:
-                    int i = random.Next(0, 3);      //randomises enemies between mage and swamp creature
+                    int i = random.Next(1, 3);      //randomises enemies between mage and swamp creature
                     if (i == 0)
                     {
                         return new SwampCreature(X, Y);

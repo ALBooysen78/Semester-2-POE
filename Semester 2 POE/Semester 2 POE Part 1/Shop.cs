@@ -8,47 +8,55 @@ namespace Semester_2_POE_Part_1
 {
     class Shop
     {
-        int[] WeaponArray = { 1, 2, 3 };
+        public Weapon[] WeaponArray;
+        private Hero hero;
+        private static Random rnd = new Random();
 
-
-        public int weaponRand()
+        public Shop(Hero hero)
         {
-            Random rnd = new Random();
-            int weaponRandom = rnd.Next(0, 4);
+            WeaponArray = new Weapon[3];
+            for (int i = 0; i < WeaponArray.Length; i++)
+                WeaponArray[i] = weaponRand();
+            this.hero = hero;
 
-            
+        }
+
+        private Weapon weaponRand()
+        {
+            int weaponRandom = rnd.Next(0, 4);
 
             switch(weaponRandom)
             {
                 case 0:
-                    //dagger
-                    break;
+                    return new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, 0, 0, "D ");
 
                 case 1:
-                    //longsword
-                    break;
+                    return new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "D ");
 
                 case 2:
-                    //rifle
-                    break;
+                    return new RangedWeapon(RangedWeapon.WeaponType.Rifle, 0, 0, "R ");
 
-                case 3:
-                    //longbow
-                    break;
+                default:
+                    return new RangedWeapon(RangedWeapon.WeaponType.LongBow, 0, 0, "LB");
 
             }
-
-            return weaponRandom;
         }
 
+        public bool canBuy(int i)
+        {
+            return (hero.GoldPurse >= WeaponArray[i].WeaponCost);
+        }
 
-        //public string Buyer(Character buyer)
-        //{
-
-        //}
-
-
-
-
+        public void Buy(int i)
+        {
+            hero.GoldPurse -= WeaponArray[i].WeaponCost;
+            hero.Pickup(WeaponArray[i]);
+            WeaponArray[i] = weaponRand();
+        }
+            
+        public string DisplayWeapon(int i)
+        {
+            return $"Buy {WeaponArray[i].WeaponTypeString} ({WeaponArray[i].WeaponCost} Gold)";
+        }
     }
 }

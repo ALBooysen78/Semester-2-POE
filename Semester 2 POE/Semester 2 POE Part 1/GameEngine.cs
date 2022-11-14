@@ -13,9 +13,11 @@ namespace Semester_2_POE_Part_1
         private Map gameMap;    //delcarations
         public Map getMap() { return gameMap; }
 
+        public Form1 Form1 { get; set; }
+
         public GameEngine()     //makes new map object
         {
-            gameMap = new Map(8,20,8,15,5,5,5);
+            gameMap = new Map(8,20,8,15,10,5,5);
         }
 
         public bool MovePlayer(Character.movement move) //checks if the attapted movement is valid, and if so, moves the hero in that direction and updates vision array for hero and enemies
@@ -32,6 +34,16 @@ namespace Semester_2_POE_Part_1
                 {
                     Item i = gameMap.GetItemAtPosition(gameMap.Heroprop.X, gameMap.Heroprop.Y);
                     gameMap.Heroprop.Pickup(i);
+                    if (i is Weapon)
+                    {
+                        Form1.Changetext(gameMap.Heroprop.HasLootedWeapon());
+                    }
+                    else
+                    {
+                        Gold g = (Gold)i;
+                        Form1.Changetext(gameMap.Heroprop.HaslootedGold(g.GoldAmount));
+                    }
+                    
                 }
                 gameMap.Mapprop[gameMap.Heroprop.X, gameMap.Heroprop.Y] = gameMap.Heroprop;    //replace the empty tile on the map with new hero position
                 gameMap.UpdateVision(gameMap.Heroprop);
@@ -65,6 +77,17 @@ namespace Semester_2_POE_Part_1
                 {
                     Item i = gameMap.GetItemAtPosition(enemy.X, enemy.Y);
                     enemy.Pickup(i);
+                    if (i is Weapon)
+                    {
+                        Form1.Changetext(enemy.HasLootedWeapon());
+
+                    }
+                    else
+                    {
+                        Gold g = (Gold)i;
+                        Form1.Changetext(enemy.HaslootedGold(g.GoldAmount));
+                    }
+
                 }
                 gameMap.Mapprop[enemy.X, enemy.Y] = enemy;    //replace the empty tile on the map with new enemy position
                 gameMap.UpdateVision(gameMap.Heroprop);
@@ -106,21 +129,25 @@ namespace Semester_2_POE_Part_1
                         {
                             enemy.Attack(gameMap.GetEnemies()[i]);
                             
-                            if (gameMap.GetEnemies()[i].isDead() == true)
+                            if (gameMap.GetEnemies()[i].isDead() == true) // && gameMap.Mapprop[gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y] is Enemy
                             {
-                                gameMap.Mapprop[gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y] = new EmptyTile(gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, ". ");     //removes dead enemies from the map 
-                                Weapon w = gameMap.GetEnemies()[i].GetWeapon();
-                                w.X = gameMap.GetEnemies()[i].X;
-                                w.Y = gameMap.GetEnemies()[i].Y;
-                                gameMap.Mapprop[w.X, w.Y] = w;
+                                enemy.Loot(gameMap.GetEnemies()[i]);
+                                gameMap.Mapprop[gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y] = new EmptyTile(gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, ". ");     //removes dead enemies from the map
                             }
-                            
                         }
                     }
 
                     if (enemy.CheckRange(gameMap.Heroprop))     //attacks hero
                     {
                         enemy.Attack(gameMap.Heroprop);
+                    }
+                }
+                else if(enemy is Leader)
+                {
+                    if (enemy.CheckRange(gameMap.Heroprop))    //attacks hero if he is close enough
+                    {
+                        enemy.Attack(gameMap.Heroprop);
+                        break;
                     }
                 }
             }

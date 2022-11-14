@@ -13,7 +13,7 @@ namespace Semester_2_POE_Part_1
     public partial class Form1 : Form
     {
         GameEngine engine;  //declarations
-        
+        Shop shop;
         public Form1()
         {
             InitializeComponent();
@@ -21,7 +21,8 @@ namespace Semester_2_POE_Part_1
 
         private void Form1_Load(object sender, EventArgs e) //creates game engine object, displays the map
         {
-            engine = new GameEngine();            
+            engine = new GameEngine(); 
+            engine.Form1 = this;
 
             DisplayMap();
 
@@ -35,7 +36,12 @@ namespace Semester_2_POE_Part_1
                 SelectEnemyDropDownList.Items.Add(entires[i]); //adding entires to drop down menu on form load
             }
 
+            shop = new Shop(engine.getMap().Heroprop);
 
+            item1Button.Text = shop.DisplayWeapon(0);
+            item2Button.Text = shop.DisplayWeapon(1);
+            item3Button.Text = shop.DisplayWeapon(2);
+            
 
         }
 
@@ -68,19 +74,9 @@ namespace Semester_2_POE_Part_1
                         engine.getMap().UpdateVision(engine.getMap().Heroprop);
                         EnemyStatsTextbox.Text += "\nEnemy was killed";
 
-                        if (engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].GetWeapon() != null)
+                        if (engine.getMap().Heroprop.Loot(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex]))
                         {
-                            if(engine.getMap().Heroprop.GetWeapon() == null)
-                            {
-                                engine.getMap().Heroprop.Pickup(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].GetWeapon());
-                            }
-                            else
-                            {
-                            Weapon w = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].GetWeapon();
-                            w.X = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].X;
-                            w.Y = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].Y;
-                            engine.getMap().Mapprop[w.X, w.Y] = w;
-                            }
+                            backlogTextBox.Text += engine.getMap().Heroprop.HasLootedWeapon();
                         }
                     }
 
@@ -101,6 +97,7 @@ namespace Semester_2_POE_Part_1
             RemoveEnemies();      
             EnemyDropdown();
             DisplayMap();
+            CheckGold();
 
         }
 
@@ -134,7 +131,7 @@ namespace Semester_2_POE_Part_1
             RemoveEnemies();     //remove dead enemies from enemy array
             DisplayMap();
             EnemyDropdown();
-
+            CheckGold();
         }
 
         private void downButton_Click(object sender, EventArgs e)   //moves hero down
@@ -145,6 +142,7 @@ namespace Semester_2_POE_Part_1
             RemoveEnemies();     //remove dead enemies from enemy array 
             DisplayMap();
             EnemyDropdown();
+            CheckGold();
         }
 
         private void rightButton_Click(object sender, EventArgs e)  //moves hero right
@@ -155,6 +153,7 @@ namespace Semester_2_POE_Part_1
             RemoveEnemies();     //remove dead enemies from enemy array
             DisplayMap();
             EnemyDropdown();
+            CheckGold();
         }
         private void leftButton_Click(object sender, EventArgs e)   //moves hero left
         {
@@ -164,6 +163,7 @@ namespace Semester_2_POE_Part_1
             RemoveEnemies();     //remove dead enemies from enemy array
             DisplayMap();
             EnemyDropdown();
+            CheckGold();
         }
 
         private void EnemyDropdown() //renames enemy texts in the dropdown list to update their changing coordinates when they move
@@ -176,7 +176,7 @@ namespace Semester_2_POE_Part_1
 
         }
 
-        private void RemoveEnemies()                        //check if enemies are dead, if they are dead create a new array without the dead ones
+        public void RemoveEnemies()                        //check if enemies are dead, if they are dead create a new array without the dead ones
                                                             //set enemies method to overwrite the eneimes array + update combobox
         {
             int tmp = 0;
@@ -247,6 +247,47 @@ namespace Semester_2_POE_Part_1
                 }
             
             }
+        }
+
+        private void backlogTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public void Changetext(string s)
+        {
+            backlogTextBox.Text += s;
+        }
+
+        private void item1Button_Click(object sender, EventArgs e)
+        {
+            shop.Buy(0);
+            item1Button.Text = shop.DisplayWeapon(0);
+            CheckGold();
+            playerStatsLabel.Text = engine.getMap().Heroprop.ToString();
+        }
+
+        private void CheckGold()
+        {
+            item1Button.Enabled = shop.canBuy(0);
+            item2Button.Enabled = shop.canBuy(1);
+            item3Button.Enabled = shop.canBuy(2);
+        }
+
+        private void item2Button_Click(object sender, EventArgs e)
+        {
+            shop.Buy(1);
+            item2Button.Text = shop.DisplayWeapon(1);
+            CheckGold();
+            playerStatsLabel.Text = engine.getMap().Heroprop.ToString();
+        }
+
+        private void item3Button_Click(object sender, EventArgs e)
+        {
+            shop.Buy(2);
+            item3Button.Text = shop.DisplayWeapon(2);
+            CheckGold();
+            playerStatsLabel.Text = engine.getMap().Heroprop.ToString();
         }
     }
 }

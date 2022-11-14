@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semester_2_POE_Part_1
 {
-    class Gold : Item
+    public class Gold : Item
     {
         private int goldAmount;
         private static Random rnd = new Random();

@@ -23,8 +23,17 @@ namespace Semester_2_POE_Part_1
         {       //enemy too string overide
             //EnemyClassName at[X, Y] (Amount DMG)
             string enemyInfo = "The " + symbol; //need to add enemy name
-            enemyInfo += $" at [{X.ToString()} {Y.ToString()}]";
-            enemyInfo += " is at " + hp.ToString() + "HP";
+            enemyInfo += $" at [{X.ToString()}, {Y.ToString()}]";
+            enemyInfo += " is at " + hp.ToString() + "HP\n";
+            if (this.weapon == null)
+            {
+                enemyInfo += $"Is barehanded and deals {this.damage} damage";
+            }
+            else
+            {
+                enemyInfo += weapon.ToString();
+                enemyInfo += $"\nDamage: {this.damage}";
+            }
 
             return enemyInfo;
         }

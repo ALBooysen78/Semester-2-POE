@@ -11,6 +11,7 @@ namespace Semester_2_POE_Part_1
         //create the getter and setter tile accessors
         public Leader(int X, int Y) : base(X, Y, 2, 20, 20, "L ")
         {
+            goldPurse = 2;
             //Leader constructor
         }
 
@@ -69,7 +70,7 @@ namespace Semester_2_POE_Part_1
                     }
                 }
             }
-            else if(differenceYPositive > differenceXPositive)
+            else 
             {
                 if(differenceY > 0)
                 {
@@ -111,6 +112,7 @@ namespace Semester_2_POE_Part_1
         //Random movement method for the leader
         public movement rndmovement(movement enemyMovementLeader)
         {
+            int i = 0;
             do
             {
                 Random rndm = new Random();
@@ -157,9 +159,9 @@ namespace Semester_2_POE_Part_1
                 {
                     enemyMovementLeader = movement.NoMovement;
                 }
+                i++;
 
-
-            } while (enemyMovementLeader == movement.NoMovement);
+            } while (enemyMovementLeader == movement.NoMovement && i<100);
 
             return enemyMovementLeader;
         }
