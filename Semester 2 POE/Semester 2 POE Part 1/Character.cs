@@ -13,6 +13,13 @@ namespace Semester_2_POE_Part_1
         protected int damage;
         protected int goldPurse;
 
+        protected Weapon weapon;
+
+        public Weapon GetWeapon()
+        {
+            return weapon;
+        }
+
         public int HP { get { return hp; } set { hp = value; } }
         public int MaxHp { get { return maxHp; } set { maxHp = value; } }
 
@@ -79,17 +86,26 @@ namespace Semester_2_POE_Part_1
         {
             //needs to return true or false
             //checks range of the character
+            if (this.weapon == null)
+            {
+                if (DistanceTo(target) > 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
             
-            if(DistanceTo(target) > 1)
+            if(DistanceTo(target) > this.weapon.WeaponRange)
             {
                 return false;
             }
-            else if(DistanceTo(target) <= 1 && DistanceTo(target)>0)
+            else 
             {
                 return true;
             }
-
-            return false;
 
         }
 
@@ -120,13 +136,25 @@ namespace Semester_2_POE_Part_1
 
         public void Pickup(Item i)  //method for picking up gold
         {
-            if (i.ToString() == "Gold")
+            if (i is Gold)
             {
                 Gold g = (Gold)i;
                 GoldPurse += g.GetGoldAmount();
+                return;
+            }
+            if (i is Weapon)
+            {
+                Equip((Weapon)i);
             }
         }
-        
+
+        private void Equip(Weapon w)
+        {
+            weapon = w;
+            this.damage = weapon.WeaponDamage;
+        }
+
+
 
     }
 }

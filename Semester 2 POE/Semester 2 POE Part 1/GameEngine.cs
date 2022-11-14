@@ -15,7 +15,7 @@ namespace Semester_2_POE_Part_1
 
         public GameEngine()     //makes new map object
         {
-            gameMap = new Map(8,20,8,15,5,5);
+            gameMap = new Map(8,20,8,15,5,5,5);
         }
 
         public bool MovePlayer(Character.movement move) //checks if the attapted movement is valid, and if so, moves the hero in that direction and updates vision array for hero and enemies
@@ -28,7 +28,7 @@ namespace Semester_2_POE_Part_1
                 
                 gameMap.Mapprop[gameMap.Heroprop.X, gameMap.Heroprop.Y] = new EmptyTile(gameMap.Heroprop.X, gameMap.Heroprop.Y, " . ");    //replace the hero's current poition on the map with an empty tile
                 gameMap.Heroprop.Move(move);    //move hero
-                if(gameMap.Mapprop[gameMap.Heroprop.X, gameMap.Heroprop.Y].Symbol == "G ") //allows the hero to pickup gold
+                if(gameMap.Mapprop[gameMap.Heroprop.X, gameMap.Heroprop.Y] is Item) //allows the hero to pickup gold
                 {
                     Item i = gameMap.GetItemAtPosition(gameMap.Heroprop.X, gameMap.Heroprop.Y);
                     gameMap.Heroprop.Pickup(i);
@@ -61,7 +61,7 @@ namespace Semester_2_POE_Part_1
                            
                 gameMap.Mapprop[enemy.X, enemy.Y] = new EmptyTile(enemy.X, enemy.Y, " . ");    //replace the enemy's current poition on the map with an empty tile
                 enemy.Move(move);    //move enemy
-                if (gameMap.Mapprop[enemy.X, enemy.Y].Symbol == "G ")  
+                if (gameMap.Mapprop[enemy.X, enemy.Y] is Item)  
                 {
                     Item i = gameMap.GetItemAtPosition(enemy.X, enemy.Y);
                     enemy.Pickup(i);
@@ -90,14 +90,13 @@ namespace Semester_2_POE_Part_1
                 }
                 if (enemy is SwampCreature)     //attacks if enemy is a swampcreature
                 {
-                    for(int i = 0; i < enemy.VISION.Length; i++)
+                    
+                    if (enemy.CheckRange(gameMap.Heroprop))    //attacks hero if he is close enough
                     {
-                        if (enemy.VISION[i] is Hero)    //attacks hero if he is close enough
-                        {
-                            enemy.Attack(gameMap.Heroprop);
-                            break;
-                        }
+                        enemy.Attack(gameMap.Heroprop);
+                        break;
                     }
+                    
                 }
                 else if (enemy is Mage)     //attacks if enemy is a mage
                 {
@@ -110,7 +109,10 @@ namespace Semester_2_POE_Part_1
                             if (gameMap.GetEnemies()[i].isDead() == true)
                             {
                                 gameMap.Mapprop[gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y] = new EmptyTile(gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, ". ");     //removes dead enemies from the map 
-                                
+                                Weapon w = gameMap.GetEnemies()[i].GetWeapon();
+                                w.X = gameMap.GetEnemies()[i].X;
+                                w.Y = gameMap.GetEnemies()[i].Y;
+                                gameMap.Mapprop[w.X, w.Y] = w;
                             }
                             
                         }
@@ -183,7 +185,7 @@ namespace Semester_2_POE_Part_1
                 switch (objectType)
                 {
                     case "MapDimensions":
-                        gameMap = new Map(xPos, xPos, yPos, yPos, gameMap.GetEnemies().Length, gameMap.Items.Length);   //makes a new map according to the dimensions given from the savefile
+                        gameMap = new Map(xPos, xPos, yPos, yPos, gameMap.GetEnemies().Length, gameMap.Items.Length,5);   //makes a new map according to the dimensions given from the savefile
                         gameMap.Items = new Item[gameMap.Items.Length];     //make new item array
                         Enemy[] tmp = new Enemy[gameMap.GetEnemies().Length];   //make new empty enemy array
                         gameMap.SetEnemies(tmp);

@@ -67,6 +67,21 @@ namespace Semester_2_POE_Part_1
                         DisplayMap();
                         engine.getMap().UpdateVision(engine.getMap().Heroprop);
                         EnemyStatsTextbox.Text += "\nEnemy was killed";
+
+                        if (engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].GetWeapon() != null)
+                        {
+                            if(engine.getMap().Heroprop.GetWeapon() == null)
+                            {
+                                engine.getMap().Heroprop.Pickup(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].GetWeapon());
+                            }
+                            else
+                            {
+                            Weapon w = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].GetWeapon();
+                            w.X = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].X;
+                            w.Y = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].Y;
+                            engine.getMap().Mapprop[w.X, w.Y] = w;
+                            }
+                        }
                     }
 
                 }

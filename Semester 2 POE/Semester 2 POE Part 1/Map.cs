@@ -66,13 +66,14 @@ namespace Semester_2_POE_Part_1
 
         public Tile[,] Mapprop { get { return map; } set { map = value; } }  
 
-        public Map(int minHeight, int maxHeight, int minWidth, int maxWidth, int enemyNumber, int goldAmount)   //map constructor
+        public Map(int minHeight, int maxHeight, int minWidth, int maxWidth, int enemyNumber, int goldAmount, int WeaponAmount)   //map constructor
         {
             this.mapHeight = random.Next(minHeight,maxHeight);
             this.mapWidth = random.Next(minWidth,maxWidth);
             map = new Tile[mapHeight,mapWidth];
             enemies = new Enemy[enemyNumber];
-            items = new Item[goldAmount];
+            int weaponAmount = random.Next(WeaponAmount);
+            items = new Item[goldAmount + weaponAmount];
 
             for (int i = 0; i < mapHeight; i++)     //sets the obstacles around the entire map
             {
@@ -94,13 +95,36 @@ namespace Semester_2_POE_Part_1
 
             for (int i = 0; i < items.Length; i++)
             {
+                if (goldAmount > 0)
+                {
                 items[i] = (Item)Create(Tile.tileType.Gold);
                 map[items[i].X, items[i].Y] = items[i];
+                goldAmount--;
+                }
+                else
+                {
+                    items[i] = (Item)Create(Tile.tileType.weapon);
+                    map[items[i].X, items[i].Y] = items[i];
+                }
             }
 
             hero = (Hero)Create(Tile.tileType.Hero);    //creates hero object
 
             map[hero.X, hero.Y] = hero;
+
+            foreach (Enemy enemy in enemies)
+            {
+                if(enemy is Leader)
+                {
+                    Leader leader = (Leader)enemy;
+                    leader.LEADERSTARGET = hero;
+                    leader.Pickup(new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "LS"));
+                }
+                if(enemy is SwampCreature)
+                {
+                    enemy.Pickup(new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, 0, 0, "D"));
+                }
+            } 
             
             MapFill();
 
@@ -149,22 +173,42 @@ namespace Semester_2_POE_Part_1
             switch (type)   //switch to create the right object based on type entered
             {
                 case Tile.tileType.Hero:
-                    return new Hero(X, Y, 2, 10, 10, "H");
+                    return new Hero(X, Y, 2, 100, 100, "H");
                 case Tile.tileType.Enemy:
-                    int i = random.Next(0, 2);      //randomises enemies between mage and swamp creature
+                    int i = random.Next(0, 3);      //randomises enemies between mage and swamp creature
                     if (i == 0)
                     {
                         return new SwampCreature(X, Y);
                     }
-                    else //if value is not 0, it has to be 1, therefor there is no need to check if it is 1
+                    else if (i == 1) //if value is not 0, it has to be 1, therefor there is no need to check if it is 1
                     {
                         return new Mage(X,Y);
+                    }
+                    else
+                    {
+                        return new Leader(X,Y);
                     }
 
                 case Tile.tileType.Gold:
                     return new Gold(X,Y,"G");                //these return null because we have not implemented gold or weapons in the game yet                    
                 case Tile.tileType.weapon:
-                    return null;                //these return null because we have not implemented gold or weapons in the game yet
+                    int j = random.Next(0, 4);
+                    if (j == 0)
+                    {
+                        return new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, X, Y, "D ");
+                    }
+                    if (j == 1)
+                    {
+                        return new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, X, Y, "LS");
+                    }
+                    if (j == 2)
+                    {
+                        return new RangedWeapon(RangedWeapon.WeaponType.Rifle, X, Y, "R ");
+                    }
+                    else
+                    {
+                        return new RangedWeapon(RangedWeapon.WeaponType.LongBow, X, Y, "LB");
+                    }
                 default:
                     return null;
             }

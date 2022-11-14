@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semester_2_POE_Part_1
 {
-    abstract class MeleeWeapon : Weapon
+    class MeleeWeapon : Weapon
     {
         public MeleeWeapon(int X, int Y, string symbol) : base(X, Y, symbol)
         {
@@ -15,6 +15,7 @@ namespace Semester_2_POE_Part_1
 
         public MeleeWeapon(MeleeWeapon.WeaponType weaponType, int X, int Y, string symbol) : base(X, Y, symbol) 
         {
+            WeaponRange = 1;
             switch (weaponType)
             {
                 case WeaponType.Dagger:
@@ -48,10 +49,9 @@ namespace Semester_2_POE_Part_1
 
     public override int WeaponRange { get { return 1; } }
 
-
-
-
-
-
+        public override string ToString()
+        {
+            return $"Weapon: {WeaponTypeString}\nDurability: {WeaponDurability}\nRange: 1";
+        }
     }//class
 }

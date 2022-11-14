@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semester_2_POE_Part_1
 {
-    abstract class RangedWeapon : Weapon
+    class RangedWeapon : Weapon
     {
         public RangedWeapon(int X, int Y, string symbol) : base(X, Y, symbol)
         {
@@ -44,7 +44,9 @@ namespace Semester_2_POE_Part_1
 
         public override int WeaponRange { get => base.WeaponRange; set => base.WeaponRange = value; }
 
-
-
+        public override string ToString()
+        {
+            return $"Weapon: {WeaponTypeString}\nDurability: {WeaponDurability}\nRange: {WeaponRange}";
+        }
     }
 }

@@ -21,6 +21,15 @@ namespace Semester_2_POE_Part_1
             heroInfo += "Damage is: " + Damage.ToString() + "\n";                       // heros to string
             heroInfo += "Coordinates: [" + X.ToString() + "," + Y.ToString() + "]\n";
             heroInfo += "Gold: " + goldPurse.ToString() + "\n";
+            if (this.weapon == null)
+            {
+                heroInfo += "Weapon: Bare Fists\n";
+
+            }
+            else
+            {
+                heroInfo += weapon.ToString();
+            }
 
             return heroInfo;
         }
