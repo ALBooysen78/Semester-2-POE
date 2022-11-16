@@ -79,8 +79,15 @@ namespace Semester_2_POE_Part_1
                         {
                             backlogTextBox.Text += engine.getMap().Heroprop.HasLootedWeapon();
                         }
+                        engine.getMap().UpdateVision(engine.getMap().Heroprop);
 
-                        
+
+                        for (int i = 0; i < engine.getMap().GetEnemies().Length; i++)   //updates enemy visions
+                        {
+                            engine.getMap().UpdateVision(engine.getMap().GetEnemies()[i]);
+                        }
+
+
                     }
 
                 }
