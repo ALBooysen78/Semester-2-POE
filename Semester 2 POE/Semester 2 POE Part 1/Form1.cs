@@ -275,6 +275,7 @@ namespace Semester_2_POE_Part_1
         private void item1Button_Click(object sender, EventArgs e)
         {
             shop.Buy(0);
+            Changetext($"You have bought a {engine.getMap().Heroprop.GetWeapon().WeaponTypeString}");
             item1Button.Text = shop.DisplayWeapon(0);
             CheckGold();
             playerStatsLabel.Text = engine.getMap().Heroprop.ToString();
@@ -290,6 +291,7 @@ namespace Semester_2_POE_Part_1
         private void item2Button_Click(object sender, EventArgs e)
         {
             shop.Buy(1);
+            Changetext($"You have bought a {engine.getMap().Heroprop.GetWeapon().WeaponTypeString}");
             item2Button.Text = shop.DisplayWeapon(1);
             CheckGold();
             playerStatsLabel.Text = engine.getMap().Heroprop.ToString();
@@ -298,6 +300,7 @@ namespace Semester_2_POE_Part_1
         private void item3Button_Click(object sender, EventArgs e)
         {
             shop.Buy(2);
+            Changetext($"You have bought a {engine.getMap().Heroprop.GetWeapon().WeaponTypeString}");
             item3Button.Text = shop.DisplayWeapon(2);
             CheckGold();
             playerStatsLabel.Text = engine.getMap().Heroprop.ToString();

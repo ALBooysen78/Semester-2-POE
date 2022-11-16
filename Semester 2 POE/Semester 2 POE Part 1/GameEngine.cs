@@ -119,7 +119,6 @@ namespace Semester_2_POE_Part_1
                     {
                         enemy.Attack(gameMap.Heroprop);
                         Form1.Changetext($"You were dealt {enemy.Damage} damage by the {enemy.Symbol} at [{enemy.X},{enemy.Y}]\n");
-                        break;
                     }
                     
                 }
@@ -152,8 +151,15 @@ namespace Semester_2_POE_Part_1
                     {
                         enemy.Attack(gameMap.Heroprop);
                         Form1.Changetext($"You were dealt {enemy.Damage} damage by the {enemy.Symbol} at [{enemy.X},{enemy.Y}]\n");
-                        break;
+                        
                     }
+                }
+                gameMap.UpdateVision(gameMap.Heroprop);
+
+
+                for (int i = 0; i < gameMap.GetEnemies().Length; i++)
+                {
+                    gameMap.UpdateVision(gameMap.GetEnemies()[i]);
                 }
             }
 
