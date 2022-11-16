@@ -105,7 +105,7 @@ namespace Semester_2_POE_Part_1
 
         public void EnemyAttacks()  //method for enemy attacks
         { 
-            foreach (var enemy in gameMap.GetEnemies())
+            foreach (Enemy enemy in gameMap.GetEnemies())
             {
                 if (enemy.isDead() == true) //checks if the enemy is dead, so that they can't attack if so
                 {
