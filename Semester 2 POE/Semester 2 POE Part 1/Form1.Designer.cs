@@ -44,12 +44,16 @@
             this.item1Button = new System.Windows.Forms.Button();
             this.item2Button = new System.Windows.Forms.Button();
             this.item3Button = new System.Windows.Forms.Button();
+            this.mapLabel = new System.Windows.Forms.Label();
+            this.enemyBoxLabel = new System.Windows.Forms.Label();
+            this.backlogLabel = new System.Windows.Forms.Label();
+            this.playerLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // upButton
             // 
             this.upButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.upButton.Location = new System.Drawing.Point(412, 237);
+            this.upButton.Location = new System.Drawing.Point(411, 271);
             this.upButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.upButton.Name = "upButton";
             this.upButton.Size = new System.Drawing.Size(67, 75);
@@ -61,7 +65,7 @@
             // leftButton
             // 
             this.leftButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.leftButton.Location = new System.Drawing.Point(332, 331);
+            this.leftButton.Location = new System.Drawing.Point(331, 365);
             this.leftButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.leftButton.Name = "leftButton";
             this.leftButton.Size = new System.Drawing.Size(67, 75);
@@ -73,7 +77,7 @@
             // downButton
             // 
             this.downButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.downButton.Location = new System.Drawing.Point(412, 331);
+            this.downButton.Location = new System.Drawing.Point(411, 365);
             this.downButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.downButton.Name = "downButton";
             this.downButton.Size = new System.Drawing.Size(67, 75);
@@ -85,7 +89,7 @@
             // rightButton
             // 
             this.rightButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rightButton.Location = new System.Drawing.Point(493, 331);
+            this.rightButton.Location = new System.Drawing.Point(492, 365);
             this.rightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rightButton.Name = "rightButton";
             this.rightButton.Size = new System.Drawing.Size(67, 75);
@@ -98,7 +102,7 @@
             // 
             this.mapDisplayTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mapDisplayTextBox.Font = new System.Drawing.Font("Monospac821 BT", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mapDisplayTextBox.Location = new System.Drawing.Point(70, 42);
+            this.mapDisplayTextBox.Location = new System.Drawing.Point(69, 76);
             this.mapDisplayTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.mapDisplayTextBox.Multiline = true;
             this.mapDisplayTextBox.Name = "mapDisplayTextBox";
@@ -109,7 +113,7 @@
             // playerStatsLabel
             // 
             this.playerStatsLabel.AutoSize = true;
-            this.playerStatsLabel.Location = new System.Drawing.Point(358, 42);
+            this.playerStatsLabel.Location = new System.Drawing.Point(357, 76);
             this.playerStatsLabel.Name = "playerStatsLabel";
             this.playerStatsLabel.Size = new System.Drawing.Size(146, 17);
             this.playerStatsLabel.TabIndex = 5;
@@ -117,11 +121,11 @@
             // 
             // EnemyStatsTextbox
             // 
-            this.EnemyStatsTextbox.Location = new System.Drawing.Point(563, 42);
+            this.EnemyStatsTextbox.Location = new System.Drawing.Point(562, 76);
             this.EnemyStatsTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.EnemyStatsTextbox.Name = "EnemyStatsTextbox";
             this.EnemyStatsTextbox.ReadOnly = true;
-            this.EnemyStatsTextbox.Size = new System.Drawing.Size(127, 204);
+            this.EnemyStatsTextbox.Size = new System.Drawing.Size(138, 204);
             this.EnemyStatsTextbox.TabIndex = 6;
             this.EnemyStatsTextbox.Text = "";
             this.EnemyStatsTextbox.TextChanged += new System.EventHandler(this.EnemyStatsTextbox_TextChanged);
@@ -129,7 +133,7 @@
             // SelectEnemyDropDownList
             // 
             this.SelectEnemyDropDownList.FormattingEnabled = true;
-            this.SelectEnemyDropDownList.Location = new System.Drawing.Point(571, 263);
+            this.SelectEnemyDropDownList.Location = new System.Drawing.Point(570, 297);
             this.SelectEnemyDropDownList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SelectEnemyDropDownList.Name = "SelectEnemyDropDownList";
             this.SelectEnemyDropDownList.Size = new System.Drawing.Size(106, 25);
@@ -138,7 +142,7 @@
             // 
             // attackEnemyButton
             // 
-            this.attackEnemyButton.Location = new System.Drawing.Point(592, 310);
+            this.attackEnemyButton.Location = new System.Drawing.Point(591, 344);
             this.attackEnemyButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.attackEnemyButton.Name = "attackEnemyButton";
             this.attackEnemyButton.Size = new System.Drawing.Size(66, 25);
@@ -149,7 +153,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(592, 356);
+            this.saveButton.Location = new System.Drawing.Point(591, 390);
             this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(66, 25);
@@ -160,7 +164,7 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(592, 385);
+            this.loadButton.Location = new System.Drawing.Point(591, 419);
             this.loadButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(66, 25);
@@ -171,7 +175,7 @@
             // 
             // backlogTextBox
             // 
-            this.backlogTextBox.Location = new System.Drawing.Point(696, 43);
+            this.backlogTextBox.Location = new System.Drawing.Point(726, 76);
             this.backlogTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.backlogTextBox.Name = "backlogTextBox";
             this.backlogTextBox.ReadOnly = true;
@@ -184,7 +188,7 @@
             // 
             this.shopLabel.AutoSize = true;
             this.shopLabel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.shopLabel.Location = new System.Drawing.Point(692, 263);
+            this.shopLabel.Location = new System.Drawing.Point(722, 296);
             this.shopLabel.Name = "shopLabel";
             this.shopLabel.Size = new System.Drawing.Size(56, 23);
             this.shopLabel.TabIndex = 12;
@@ -193,7 +197,7 @@
             // item1Button
             // 
             this.item1Button.Enabled = false;
-            this.item1Button.Location = new System.Drawing.Point(696, 310);
+            this.item1Button.Location = new System.Drawing.Point(726, 343);
             this.item1Button.Name = "item1Button";
             this.item1Button.Size = new System.Drawing.Size(146, 25);
             this.item1Button.TabIndex = 13;
@@ -204,7 +208,7 @@
             // item2Button
             // 
             this.item2Button.Enabled = false;
-            this.item2Button.Location = new System.Drawing.Point(696, 341);
+            this.item2Button.Location = new System.Drawing.Point(726, 374);
             this.item2Button.Name = "item2Button";
             this.item2Button.Size = new System.Drawing.Size(146, 25);
             this.item2Button.TabIndex = 14;
@@ -215,7 +219,7 @@
             // item3Button
             // 
             this.item3Button.Enabled = false;
-            this.item3Button.Location = new System.Drawing.Point(696, 372);
+            this.item3Button.Location = new System.Drawing.Point(726, 405);
             this.item3Button.Name = "item3Button";
             this.item3Button.Size = new System.Drawing.Size(146, 25);
             this.item3Button.TabIndex = 15;
@@ -223,11 +227,55 @@
             this.item3Button.UseVisualStyleBackColor = true;
             this.item3Button.Click += new System.EventHandler(this.item3Button_Click);
             // 
+            // mapLabel
+            // 
+            this.mapLabel.AutoSize = true;
+            this.mapLabel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapLabel.Location = new System.Drawing.Point(65, 51);
+            this.mapLabel.Name = "mapLabel";
+            this.mapLabel.Size = new System.Drawing.Size(46, 23);
+            this.mapLabel.TabIndex = 16;
+            this.mapLabel.Text = "Map";
+            // 
+            // enemyBoxLabel
+            // 
+            this.enemyBoxLabel.AutoSize = true;
+            this.enemyBoxLabel.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.enemyBoxLabel.Location = new System.Drawing.Point(558, 51);
+            this.enemyBoxLabel.Name = "enemyBoxLabel";
+            this.enemyBoxLabel.Size = new System.Drawing.Size(142, 17);
+            this.enemyBoxLabel.TabIndex = 17;
+            this.enemyBoxLabel.Text = "Selected Enemy Stats:";
+            // 
+            // backlogLabel
+            // 
+            this.backlogLabel.AutoSize = true;
+            this.backlogLabel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backlogLabel.Location = new System.Drawing.Point(722, 47);
+            this.backlogLabel.Name = "backlogLabel";
+            this.backlogLabel.Size = new System.Drawing.Size(143, 23);
+            this.backlogLabel.TabIndex = 18;
+            this.backlogLabel.Text = "Backlog Display:";
+            // 
+            // playerLabel
+            // 
+            this.playerLabel.AutoSize = true;
+            this.playerLabel.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.playerLabel.Location = new System.Drawing.Point(356, 47);
+            this.playerLabel.Name = "playerLabel";
+            this.playerLabel.Size = new System.Drawing.Size(99, 23);
+            this.playerLabel.TabIndex = 19;
+            this.playerLabel.Text = "Hero Stats:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 484);
+            this.ClientSize = new System.Drawing.Size(908, 527);
+            this.Controls.Add(this.playerLabel);
+            this.Controls.Add(this.backlogLabel);
+            this.Controls.Add(this.enemyBoxLabel);
+            this.Controls.Add(this.mapLabel);
             this.Controls.Add(this.item3Button);
             this.Controls.Add(this.item2Button);
             this.Controls.Add(this.item1Button);
@@ -272,6 +320,10 @@
         private System.Windows.Forms.Button item1Button;
         private System.Windows.Forms.Button item2Button;
         private System.Windows.Forms.Button item3Button;
+        private System.Windows.Forms.Label mapLabel;
+        private System.Windows.Forms.Label enemyBoxLabel;
+        private System.Windows.Forms.Label backlogLabel;
+        private System.Windows.Forms.Label playerLabel;
     }
 }
 

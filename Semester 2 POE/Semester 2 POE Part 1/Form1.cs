@@ -64,26 +64,29 @@ namespace Semester_2_POE_Part_1
                 if (engine.getMap().Heroprop.CheckRange(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex]) == true)
                 {   //to attack an enemy if one is selected and in range
                     engine.getMap().Heroprop.Attack(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex]);
-                    EnemyStatsTextbox.Text = "Attack Success!\n";
+                    backlogTextBox.Text += $"Your attack was successfull!\n";
 
-                    EnemyStatsTextbox.Text += engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].ToString();
+                    EnemyStatsTextbox.Text = engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].ToString();
                     if(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].isDead()== true)     //removes dead enemy symbols from the map and updates the map display
                     {
                         engine.getMap().Mapprop[engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].X, engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].Y] = new EmptyTile(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].X, engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex].Y, ". ");
                         DisplayMap();
                         engine.getMap().UpdateVision(engine.getMap().Heroprop);
-                        EnemyStatsTextbox.Text += "\nEnemy was killed";
+                        EnemyStatsTextbox.Text += "\nEnemy was killed, please select another enemy to attack";
+                        backlogTextBox.Text += HasDied(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex], engine.getMap().Heroprop);
 
                         if (engine.getMap().Heroprop.Loot(engine.getMap().GetEnemies()[SelectEnemyDropDownList.SelectedIndex]))
                         {
                             backlogTextBox.Text += engine.getMap().Heroprop.HasLootedWeapon();
                         }
+
+                        
                     }
 
                 }
                 else
                 {   // if no enemy is in range
-                    EnemyStatsTextbox.Text = "Attack Failed, enemy not in range";
+                    backlogTextBox.Text += "Attack Failed, enemy not in range\n";
                 }
             }
             catch(IndexOutOfRangeException)
@@ -98,6 +101,11 @@ namespace Semester_2_POE_Part_1
             EnemyDropdown();
             DisplayMap();
             CheckGold();
+
+            if(engine.getMap().GetEnemies().Length == 0)
+            {
+                MessageBox.Show("You are victorious!\nYou have slain all the enemies");
+            }
 
         }
 
@@ -257,6 +265,11 @@ namespace Semester_2_POE_Part_1
         public void Changetext(string s)
         {
             backlogTextBox.Text += s;
+        }
+
+        public string HasDied(Character target, Character attacker)
+        {
+            return $"The {target.Symbol} at [{target.X},{target.Y}] has been killed by the {attacker.Symbol} at [{attacker.X},{attacker.Y}]\n";
         }
 
         private void item1Button_Click(object sender, EventArgs e)

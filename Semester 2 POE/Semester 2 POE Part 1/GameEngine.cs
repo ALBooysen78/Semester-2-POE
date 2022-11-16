@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Data;
+using System.Windows.Forms;
 
 namespace Semester_2_POE_Part_1
 {
@@ -17,7 +18,7 @@ namespace Semester_2_POE_Part_1
 
         public GameEngine()     //makes new map object
         {
-            gameMap = new Map(8,20,8,15,10,5,5);
+            gameMap = new Map(8,20,8,15,5,5,5);
         }
 
         public bool MovePlayer(Character.movement move) //checks if the attapted movement is valid, and if so, moves the hero in that direction and updates vision array for hero and enemies
@@ -117,6 +118,7 @@ namespace Semester_2_POE_Part_1
                     if (enemy.CheckRange(gameMap.Heroprop))    //attacks hero if he is close enough
                     {
                         enemy.Attack(gameMap.Heroprop);
+                        Form1.Changetext($"You were dealt {enemy.Damage} damage by the {enemy.Symbol} at [{enemy.X},{enemy.Y}]\n");
                         break;
                     }
                     
@@ -131,6 +133,7 @@ namespace Semester_2_POE_Part_1
                             
                             if (gameMap.GetEnemies()[i].isDead() == true) // && gameMap.Mapprop[gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y] is Enemy
                             {
+                                Form1.Changetext(Form1.HasDied(gameMap.GetEnemies()[i], enemy));
                                 enemy.Loot(gameMap.GetEnemies()[i]);
                                 gameMap.Mapprop[gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y] = new EmptyTile(gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, ". ");     //removes dead enemies from the map
                             }
@@ -140,6 +143,7 @@ namespace Semester_2_POE_Part_1
                     if (enemy.CheckRange(gameMap.Heroprop))     //attacks hero
                     {
                         enemy.Attack(gameMap.Heroprop);
+                        Form1.Changetext($"You were dealt {enemy.Damage} damage by the {enemy.Symbol} at [{enemy.X},{enemy.Y}]\n");
                     }
                 }
                 else if(enemy is Leader)
@@ -147,9 +151,15 @@ namespace Semester_2_POE_Part_1
                     if (enemy.CheckRange(gameMap.Heroprop))    //attacks hero if he is close enough
                     {
                         enemy.Attack(gameMap.Heroprop);
+                        Form1.Changetext($"You were dealt {enemy.Damage} damage by the {enemy.Symbol} at [{enemy.X},{enemy.Y}]\n");
                         break;
                     }
                 }
+            }
+
+            if (gameMap.Heroprop.HP <= 0)
+            {
+                MessageBox.Show("You died");
             }
         }
 
@@ -166,21 +176,30 @@ namespace Semester_2_POE_Part_1
             dataTable.Columns.Add(new DataColumn("Health", typeof(int)));
             dataTable.Columns.Add(new DataColumn("MaxHealth", typeof(int)));
             dataTable.Columns.Add(new DataColumn("Gold", typeof(int)));
+            dataTable.Columns.Add(new DataColumn("Weapon", typeof(string)));
 
             //add the dimensions of the map to the datatable
-            dataTable.Rows.Add("MapDimensions", gameMap.GetMapHeight(), gameMap.GetMapWidth(), -1, -1, -1); //since the map doesn't have all of the values, irrelevent ones are set to -1
+            dataTable.Rows.Add("MapDimensions", gameMap.GetMapHeight(), gameMap.GetMapWidth()); //since the map doesn't have all of the values, irrelevent ones are set to -1
+
+            dataTable.Rows.Add("EnemyAmount", gameMap.GetEnemies().Length);
+
+            dataTable.Rows.Add("ItemAmount", gameMap.Items.Length);
             //add the hero to the datatable
-            dataTable.Rows.Add("Hero", gameMap.Heroprop.X, gameMap.Heroprop.Y, gameMap.Heroprop.HP, gameMap.Heroprop.MaxHp, gameMap.Heroprop.GoldPurse);
+            dataTable.Rows.Add("Hero", gameMap.Heroprop.X, gameMap.Heroprop.Y, gameMap.Heroprop.HP, gameMap.Heroprop.MaxHp, gameMap.Heroprop.GoldPurse, gameMap.Heroprop.GetWeapon());
             //add the enemies to the datatable
             for (int i = 0; i < gameMap.GetEnemies().Length; i++)
             {
                 if (gameMap.GetEnemies()[i] is SwampCreature)
                 {
-                    dataTable.Rows.Add("Swamp Creature", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse);
+                    dataTable.Rows.Add("Swamp Creature", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, gameMap.GetEnemies()[i].GetWeapon());
                 }
                 else if (gameMap.GetEnemies()[i] is Mage)
                 {
                     dataTable.Rows.Add("Mage", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse);
+                }
+                else if (gameMap.GetEnemies()[i] is Leader)
+                {
+                    dataTable.Rows.Add("Leader", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, gameMap.GetEnemies()[i].GetWeapon());
                 }
             }
             //add the items to the datatable
@@ -189,6 +208,10 @@ namespace Semester_2_POE_Part_1
                 if (gameMap.Items[i] is Gold)
                 {
                     dataTable.Rows.Add("Gold", gameMap.Items[i].X, gameMap.Items[i].Y, -1, -1, ((Gold)gameMap.Items[i]).GoldAmount); //since gold does not have all of the values, irrelevant ones are set to -1
+                }
+                else if (gameMap.Items[i] is Weapon)
+                {
+
                 }
             }
             //save dataset
