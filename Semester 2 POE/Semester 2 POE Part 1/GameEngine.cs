@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Data;
 using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace Semester_2_POE_Part_1
 {
@@ -185,27 +186,34 @@ namespace Semester_2_POE_Part_1
             dataTable.Columns.Add(new DataColumn("Weapon", typeof(string)));
 
             //add the dimensions of the map to the datatable
-            dataTable.Rows.Add("MapDimensions", gameMap.GetMapHeight(), gameMap.GetMapWidth()); //since the map doesn't have all of the values, irrelevent ones are set to -1
+            dataTable.Rows.Add("MapDimensions", gameMap.GetMapHeight(), gameMap.GetMapWidth(), -1, -1, -1, " "); //since the map doesn't have all of the values, irrelevent ones are set to -1
 
-            dataTable.Rows.Add("EnemyAmount", gameMap.GetEnemies().Length);
+            dataTable.Rows.Add("EnemyAmount", gameMap.GetEnemies().Length, -1, -1, -1, -1, " ");
 
-            dataTable.Rows.Add("ItemAmount", gameMap.Items.Length);
+            dataTable.Rows.Add("ItemAmount", gameMap.Items.Length, -1, -1, -1, -1, " ");
             //add the hero to the datatable
-            dataTable.Rows.Add("Hero", gameMap.Heroprop.X, gameMap.Heroprop.Y, gameMap.Heroprop.HP, gameMap.Heroprop.MaxHp, gameMap.Heroprop.GoldPurse, gameMap.Heroprop.GetWeapon());
+            if (gameMap.Heroprop.GetWeapon() != null)
+            {
+                dataTable.Rows.Add("Hero", gameMap.Heroprop.X, gameMap.Heroprop.Y, gameMap.Heroprop.HP, gameMap.Heroprop.MaxHp, gameMap.Heroprop.GoldPurse, gameMap.Heroprop.GetWeapon().WeaponTypeString);
+            }
+            else
+            {
+                dataTable.Rows.Add("Hero", gameMap.Heroprop.X, gameMap.Heroprop.Y, gameMap.Heroprop.HP, gameMap.Heroprop.MaxHp, gameMap.Heroprop.GoldPurse, " ");
+            }
             //add the enemies to the datatable
             for (int i = 0; i < gameMap.GetEnemies().Length; i++)
             {
                 if (gameMap.GetEnemies()[i] is SwampCreature)
                 {
-                    dataTable.Rows.Add("Swamp Creature", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, gameMap.GetEnemies()[i].GetWeapon());
+                    dataTable.Rows.Add("Swamp Creature", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, gameMap.GetEnemies()[i].GetWeapon().WeaponTypeString);
                 }
                 else if (gameMap.GetEnemies()[i] is Mage)
                 {
-                    dataTable.Rows.Add("Mage", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse);
+                    dataTable.Rows.Add("Mage", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, " ");
                 }
                 else if (gameMap.GetEnemies()[i] is Leader)
                 {
-                    dataTable.Rows.Add("Leader", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, gameMap.GetEnemies()[i].GetWeapon());
+                    dataTable.Rows.Add("Leader", gameMap.GetEnemies()[i].X, gameMap.GetEnemies()[i].Y, gameMap.GetEnemies()[i].HP, gameMap.GetEnemies()[i].MaxHp, gameMap.GetEnemies()[i].GoldPurse, gameMap.GetEnemies()[i].GetWeapon().WeaponTypeString);
                 }
             }
             //add the items to the datatable
@@ -213,11 +221,12 @@ namespace Semester_2_POE_Part_1
             {
                 if (gameMap.Items[i] is Gold)
                 {
-                    dataTable.Rows.Add("Gold", gameMap.Items[i].X, gameMap.Items[i].Y, -1, -1, ((Gold)gameMap.Items[i]).GoldAmount); //since gold does not have all of the values, irrelevant ones are set to -1
+                    dataTable.Rows.Add("Gold", gameMap.Items[i].X, gameMap.Items[i].Y, -1, -1, ((Gold)gameMap.Items[i]).GoldAmount, " "); //since gold does not have all of the values, irrelevant ones are set to -1
                 }
                 else if (gameMap.Items[i] is Weapon)
                 {
-
+                    
+                    dataTable.Rows.Add("Weapon", gameMap.Items[i].X, gameMap.Items[i].Y, -1, -1, -1, ((Weapon)gameMap.Items[i]).WeaponTypeString);
                 }
             }
             //save dataset
@@ -237,14 +246,12 @@ namespace Semester_2_POE_Part_1
                 int hp = Convert.ToInt32(row["Health"]);
                 int maxHp = Convert.ToInt32(row["MaxHealth"]);
                 int gold = Convert.ToInt32(row["Gold"]);
+                string weapon = Convert.ToString(row["Weapon"]);
 
                 switch (objectType)
                 {
                     case "MapDimensions":
                         gameMap = new Map(xPos, xPos, yPos, yPos, gameMap.GetEnemies().Length, gameMap.Items.Length,5);   //makes a new map according to the dimensions given from the savefile
-                        gameMap.Items = new Item[gameMap.Items.Length];     //make new item array
-                        Enemy[] tmp = new Enemy[gameMap.GetEnemies().Length];   //make new empty enemy array
-                        gameMap.SetEnemies(tmp);
                         for (int x = 0; x < xPos; x++)      //creates obstacles on the edges of the map, as well as filling it with empty tiles
                         {
                             for (int y = 0; y < yPos; y++)
@@ -260,8 +267,36 @@ namespace Semester_2_POE_Part_1
                             }
                         }
                         break;
+                    case "EnemyAmount":
+                        Enemy[] tmp = new Enemy[xPos];
+                        gameMap.SetEnemies(tmp);
+                        break;
+                    case "ItemAmount":
+                        gameMap.Items = new Item[xPos];
+                        break;
                     case "Hero":
                         Hero hero = new Hero(xPos, yPos,2, hp, maxHp, "H ") { GoldPurse = gold };   //makes a new hero from the savefile data
+                        switch (weapon)
+                        {
+                            case "LongSword":
+                                Weapon w = new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "LS");
+                                hero.Pickup(w);
+                                break;
+                            case "Dagger":
+                                Weapon x = new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, 0, 0, "D ");
+                                hero.Pickup(x);
+                                break;
+                            case "LongBow":
+                                Weapon y = new RangedWeapon(RangedWeapon.WeaponType.LongBow, 0, 0, "LB");
+                                hero.Pickup(y);
+                                break;
+                            case "Rifle":
+                                Weapon z = new RangedWeapon(RangedWeapon.WeaponType.Rifle, 0, 0, "R ");
+                                hero.Pickup(z);
+                                break;
+                            default:
+                                break;
+                        }
                         gameMap.Heroprop = hero;
                         gameMap.Mapprop[xPos, yPos] = hero;     //places new hero on the map
                         break;
@@ -283,8 +318,62 @@ namespace Semester_2_POE_Part_1
                             if (gameMap.GetEnemies()[i] is null)
                             {
                                 SwampCreature swampCreature = new SwampCreature(xPos, yPos, 1, hp, 10, "SC") {  GoldPurse = gold };
+                                switch (weapon)
+                                {
+                                    case "LongSword":
+                                        Weapon w = new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "LS");
+                                        swampCreature.Pickup(w);
+                                        break;
+                                    case "Dagger":
+                                        Weapon x = new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, 0, 0, "D ");
+                                        swampCreature.Pickup(x);
+                                        break;
+                                    case "LongBow":
+                                        Weapon y = new RangedWeapon(RangedWeapon.WeaponType.LongBow, 0, 0, "LB");
+                                        swampCreature.Pickup(y);
+                                        break;
+                                    case "Rifle":
+                                        Weapon z = new RangedWeapon(RangedWeapon.WeaponType.Rifle, 0, 0, "R ");
+                                        swampCreature.Pickup(z);
+                                        break;
+                                    default:
+                                        break;
+                                }
                                 gameMap.GetEnemies()[i] = swampCreature;
                                 gameMap.Mapprop[xPos, yPos] = swampCreature;    //places new swampcreature on the map
+                                break;
+                            }
+                        }
+                        break;
+                    case "Leader":
+                        for (int i = 0; i < gameMap.GetEnemies().Length; i++)       //loops through enemies array and adds a leader from the savefile data to an open space in the enemy array
+                        {
+                            if (gameMap.GetEnemies()[i] is null)
+                            {
+                                Leader leader = new Leader(xPos, yPos, 1, hp, 10, "L ") { GoldPurse = gold };
+                                switch (weapon)
+                                {
+                                    case "LongSword":
+                                        Weapon w = new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "LS");
+                                        leader.Pickup(w);
+                                        break;
+                                    case "Dagger":
+                                        Weapon x = new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, 0, 0, "D ");
+                                        leader.Pickup(x);
+                                        break;
+                                    case "LongBow":
+                                        Weapon y = new RangedWeapon(RangedWeapon.WeaponType.LongBow, 0, 0, "LB");
+                                        leader.Pickup(y);
+                                        break;
+                                    case "Rifle":
+                                        Weapon z = new RangedWeapon(RangedWeapon.WeaponType.Rifle, 0, 0, "R ");
+                                        leader.Pickup(z);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                gameMap.GetEnemies()[i] = leader;
+                                gameMap.Mapprop[xPos, yPos] = leader;    //places new leader on the map
                                 break;
                             }
                         }
@@ -301,12 +390,65 @@ namespace Semester_2_POE_Part_1
                         }
                         gameMap.Mapprop[xPos, yPos] = _gold;    //places new gold on the map
                         break;
+                    case "Weapon":
+                        switch (weapon)
+                        {
+                            case "LongSword":
+                                Weapon ls = new MeleeWeapon(MeleeWeapon.WeaponType.LongSword,xPos, yPos, "LS");
+                                for (int i = 0; i < gameMap.Items.Length; i++)
+                                {
+                                    if (gameMap.Items[i] is null)
+                                    {
+                                        gameMap.Items[i] = ls;
+                                        break;
+                                    }
+                                }
+                                gameMap.Mapprop[xPos, yPos] = ls;
+                                break;
+                            case "Dagger":
+                                Weapon d = new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, xPos, yPos, "D ");
+                                for (int i = 0; i < gameMap.Items.Length; i++)
+                                {
+                                    if (gameMap.Items[i] is null)
+                                    {
+                                        gameMap.Items[i] = d;
+                                        break;
+                                    }
+                                }
+                                gameMap.Mapprop[xPos, yPos] = d;
+                                break;
+                            case "LongBow":
+                                Weapon lb = new RangedWeapon(RangedWeapon.WeaponType.LongBow, xPos, yPos, "LB");
+                                for (int i = 0; i < gameMap.Items.Length; i++)
+                                {
+                                    if (gameMap.Items[i] is null)
+                                    {
+                                        gameMap.Items[i] = lb;
+                                        break;
+                                    }
+                                }
+                                gameMap.Mapprop[xPos, yPos] = lb;
+                                break;
+                            case "Rifle":
+                                Weapon r = new RangedWeapon(RangedWeapon.WeaponType.Rifle, xPos, yPos, "R ");
+                                for (int i = 0; i < gameMap.Items.Length; i++)
+                                {
+                                    if (gameMap.Items[i] is null)
+                                    {
+                                        gameMap.Items[i] = r;
+                                        break;
+                                    }
+                                }
+                                gameMap.Mapprop[xPos, yPos] = r;
+                                break;
+                        }
+                        break;
                     default:
                         break;
                 }
             }
 
-            for(int i = 0; i < gameMap.GetEnemies().Length; i++)    //loop to check if there are any null values in the enemies array 
+            /*for(int i = 0; i < gameMap.GetEnemies().Length; i++)    //loop to check if there are any null values in the enemies array 
             {
                 if (gameMap.GetEnemies()[i] == null)        //if there is a null value, creates a new array that is sorter and sets the enemy array to the new one
                 {
@@ -321,7 +463,7 @@ namespace Semester_2_POE_Part_1
 
                     break;
                 }
-            }
+            }*/
 
             for (int i = 0; i < gameMap.GetEnemies().Length; i++)       //updates vision of all enemies
             {

@@ -31,7 +31,7 @@ namespace Semester_2_POE_Part_1
                     return new MeleeWeapon(MeleeWeapon.WeaponType.Dagger, 0, 0, "D ");
 
                 case 1:
-                    return new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "D ");
+                    return new MeleeWeapon(MeleeWeapon.WeaponType.LongSword, 0, 0, "LS");
 
                 case 2:
                     return new RangedWeapon(RangedWeapon.WeaponType.Rifle, 0, 0, "R ");
